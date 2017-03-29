@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>AD_UNIT_ID_FOR_BANNER_TEST</key>
+	<string>ca-app-pub-3940256099942544/2934735716</string>
+	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
+	<string>ca-app-pub-3940256099942544/4411468910</string>
+	<key>CLIENT_ID</key>
+	<string>413622449780-kbia0pp4lmqpjfmvfcgog4tn0pmu5gpv.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.413622449780-kbia0pp4lmqpjfmvfcgog4tn0pmu5gpv</string>
+	<key>API_KEY</key>
+	<string>AIzaSyC1q6EYC4w419xsT3wv9eDyTs8bMM7Ua8U</string>
+	<key>GCM_SENDER_ID</key>
+	<string>413622449780</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.argspies.ios</string>
+	<key>PROJECT_ID</key>
+	<string>arg-spies</string>
+	<key>STORAGE_BUCKET</key>
+	<string>arg-spies.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<true/>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false/>
+	<key>IS_APPINVITE_ENABLED</key>
+	<false/>
+	<key>IS_GCM_ENABLED</key>
+	<true/>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true/>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:413622449780:ios:4c4093d30b66cfae</string>
+	<key>DATABASE_URL</key>
+	<string>https://arg-spies.firebaseio.com</string>
+</dict>
+</plist>
