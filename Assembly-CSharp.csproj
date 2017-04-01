@@ -133,32 +133,18 @@
      <Compile Include="Assets\Scripts\GoogleMapLoader.cs" />
      <Compile Include="Assets\Scripts\LoginLevelManager.cs" />
      <Compile Include="Assets\Scripts\MapLevelManager.cs" />
-     <Compile Include="Assets\SimpleFirebaseUnity\Sample\AutoRotate.cs" />
-     <Compile Include="Assets\SimpleFirebaseUnity\Sample\MoveControl.cs" />
-     <Compile Include="Assets\SimpleFirebaseUnity\Sample\SampleScript.cs" />
-     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.0.1_manifest.txt" />
+     <Compile Include="Assets\Scripts\Player.cs" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />
      <None Include="Assets\Firebase\Editor\FirebaseAuth.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Firebase\Plugins\link.xml" />
      <None Include="Assets\Plugins\Android\Firebase\AndroidManifest.xml" />
-     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.1.2_manifest.txt" />
-     <None Include="Assets\SimpleFirebaseUnity\Plugins\simple-firebase-csharp.xml" />
-     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.1_manifest.txt" />
-     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.0_manifest.txt" />
-     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.2_manifest.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
-     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.0.1_manifest.txt" />
-     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v3.0.1_manifest.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
-     <None Include="Assets\SimpleFirebaseUnity\Plugins\Android\AndroidManifest.xml" />
-     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.1.1_manifest.txt" />
-     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.0.0_manifest.txt" />
-     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.0.0_manifest.txt" />
      <None Include="Assets\Facebook\Scripts\Canvas\Resources\JSSDKBindings.txt" />
      <None Include="Assets\Firebase\Plugins\Http\link.xml" />
-     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.1.0_manifest.txt" />
  <Reference Include="UnityEngine.UI">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/GUISystem/UnityEngine.UI.dll</HintPath>
  </Reference>
@@ -177,23 +163,20 @@
  <Reference Include="Firebase.Auth">
  <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Firebase.Auth.dll</HintPath>
  </Reference>
+ <Reference Include="Firebase.Database">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Firebase.Database.dll</HintPath>
+ </Reference>
  <Reference Include="Google.MiniJson">
  <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Google.MiniJson.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.Sharpen">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Google.Sharpen.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Compat">
  <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Unity.Compat.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Tasks">
  <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Unity.Tasks.dll</HintPath>
- </Reference>
- <Reference Include="simple-firebase-csharp">
- <HintPath>/Users/Owen/ARG-Spies/Assets/SimpleFirebaseUnity/Plugins/simple-firebase-csharp.dll</HintPath>
- </Reference>
- <Reference Include="Firebase.Database">
- <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Firebase.Database.dll</HintPath>
- </Reference>
- <Reference Include="Google.Sharpen">
- <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Google.Sharpen.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

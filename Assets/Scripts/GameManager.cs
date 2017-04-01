@@ -11,10 +11,12 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
 
+	//firebase data
 	public Firebase.Auth.FirebaseAuth auth;
 	public Firebase.Auth.FirebaseUser user;
 	public DatabaseReference db_reference;
 	public string last_login_ts;
+
 
 	//integers and timestamps for game data/processing
 	public int intel;
@@ -22,12 +24,6 @@ public class GameManager : MonoBehaviour {
 
 	//strings for JSON text of game data.
 	public string player_json, bugged_locations_json;
-
-	public static string ServerURL = "http://spygame.argzombie.com"; //the base string for all URLS
-
-	//urls to target php scripts
-	private string loadAllGameDataURL = GameManager.ServerURL+"/LoadAllData.php";
-
 
 	void Awake () {
 		MakeSingleton();
@@ -48,23 +44,24 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	WWWForm ReturnGameCredentials () {
-		//update user from auth
-		user = auth.CurrentUser;
-		//load web form credentials
-		WWWForm form = new WWWForm();
-		form.AddField("id", user.UserId);
-		form.AddField("username", user.DisplayName);
-		form.AddField("login_ts", last_login_ts);
-		form.AddField("client", "mob");
-		return form;
+	public void AuthCompleted () {
+		
 	}
 
 	//load into the game screen
-	public void LoadGame () {
+	void LoadGame () {
 		
 
-		StartCoroutine(LoadAllGameData());
+
+	}
+
+	public void StartNewPlayer (string codeName) {
+		Player player = new Player(auth.CurrentUser.UserId ,codeName, 0, DateTime.Now);
+		string json = JsonUtility.ToJson(player);
+
+		db_reference.Child("players").Child(user.UserId).SetRawJsonValueAsync(json);
+		Debug.Log("apparently we just created our player?... maybe?");
+		SceneManager.LoadScene("Map Screen");
 	}
 
 	// Track state changes of the auth object.
@@ -77,37 +74,15 @@ public class GameManager : MonoBehaviour {
 			GameManager.instance.user = auth.CurrentUser;
 			if (signedIn) {
 				Debug.Log("Signed in " + GameManager.instance.user.UserId);
-				LoadGame();
+				LoginLevelManager loginMgr = FindObjectOfType<LoginLevelManager>();
+				if (loginMgr !=null){
+					loginMgr.AuthComplete();
+				}else{
+					Debug.LogError("Unable to locate loginLvl manager- new login detected");
+				}
 			}
 		}
 	}
 
-	IEnumerator LoadAllGameData () {
-		GameManager.instance.last_login_ts = "12/31/1999 11:59:59";//setup the magic timestamp
-		WWWForm form = ReturnGameCredentials();
 
-		WWW www = new WWW(loadAllGameDataURL, form);
-		yield return www;
-
-		if (www.error ==null){
-			Debug.Log(www.text);
-			JsonData gameData = JsonMapper.ToObject(www.text);
-			if(gameData[0].ToString() == "Success") {
-				Debug.Log("Loading into game ... Stdby");
-				intel = (int)gameData[1]["intel"];
-				last_intel_ts = DateTime.Parse(gameData[1]["intel_ts"].ToString());
-				last_login_ts = (gameData[1]["mob_login_ts"].ToString());
-
-				player_json = gameData[1].ToJson();
-				bugged_locations_json = gameData[2].ToJson();
-
-				SceneManager.LoadScene("Map Screen");
-
-			} else {
-				Debug.LogWarning(gameData[1].ToString());
-			}
-		}else{
-			Debug.LogWarning(www.error);
-		}
-	}
 }

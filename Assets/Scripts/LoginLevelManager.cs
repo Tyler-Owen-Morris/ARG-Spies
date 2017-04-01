@@ -8,8 +8,8 @@ using System.Collections.Generic;
 public class LoginLevelManager : MonoBehaviour {
 
 
-
-	public Text emailText, passwordText;
+	public GameObject registerEmailPanel, loginSuccessPanel, newGamePromptPanel;
+	public Text emailText, passwordText, codenameText;
 	public string userID, userName;
 
 	void Start () {
@@ -31,6 +31,23 @@ public class LoginLevelManager : MonoBehaviour {
 		GameManager.instance.AuthStateChanged(this, null); //initialize auth-state
 	}
 
+	public void AuthComplete () {
+		loginSuccessPanel.SetActive(true);
+	}
+
+	public void BeginNewGamePrompt () {
+		if (newGamePromptPanel.activeInHierarchy) {
+			newGamePromptPanel.SetActive(false);
+		}else{
+			newGamePromptPanel.SetActive(true);
+		}
+	}
+
+	public void StartNewCharacter () {
+		if (codenameText.text != ""){
+			GameManager.instance.StartNewPlayer(codenameText.text);
+		}
+	}
 
 
 	public void RegisterNewEmailUser () {
@@ -56,9 +73,9 @@ public class LoginLevelManager : MonoBehaviour {
 
 			// Firebase user has been created.
 			Firebase.Auth.FirebaseUser newUser = task.Result;
+			GameManager.instance.user = newUser;
 
-
-			GameManager.instance.LoadGame();
+			//GameManager.instance.AuthCompleted();
 			/*
 			GameManager.instance.user = newUser;
 			userName = newUser.DisplayName;
@@ -92,7 +109,7 @@ public class LoginLevelManager : MonoBehaviour {
 
 			Firebase.Auth.FirebaseUser newUser = task.Result;
 
-			GameManager.instance.LoadGame();
+			//GameManager.instance.AuthCompleted();
 			/*
 			GameManager.instance.user = newUser;
 			userName = GameManager.instance.user.DisplayName;
@@ -178,8 +195,9 @@ public class LoginLevelManager : MonoBehaviour {
 
 			Firebase.Auth.FirebaseUser newUser = task.Result;
 
+
 			//Call gamemanager to load into the game
-			GameManager.instance.LoadGame();
+			//GameManager.instance.AuthCompleted();
 			/*
 			GameManager.instance.user = newUser;
 			userName = GameManager.instance.user.DisplayName;
