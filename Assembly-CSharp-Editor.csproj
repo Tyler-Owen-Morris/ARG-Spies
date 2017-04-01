@@ -6,7 +6,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{0BFADC72-E3E2-3ADE-F71E-FEF7F48D2205}</ProjectGuid>
+    <ProjectGuid>{E1CCA668-D073-2C53-A2B5-AF754744CDEF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp-Editor</AssemblyName>
@@ -56,15 +56,29 @@
      <Compile Include="Assets\Facebook\Editor\iOS\PListParser.cs" />
      <Compile Include="Assets\Firebase\Editor\AppDeps.cs" />
      <Compile Include="Assets\Firebase\Editor\AuthDeps.cs" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.0.1_manifest.txt" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />
      <None Include="Assets\Firebase\Editor\FirebaseAuth.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Firebase\Plugins\link.xml" />
      <None Include="Assets\Plugins\Android\Firebase\AndroidManifest.xml" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.1.2_manifest.txt" />
+     <None Include="Assets\SimpleFirebaseUnity\Plugins\simple-firebase-csharp.xml" />
+     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.1_manifest.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.0_manifest.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.1.2_manifest.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.0.1_manifest.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v3.0.1_manifest.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
+     <None Include="Assets\SimpleFirebaseUnity\Plugins\Android\AndroidManifest.xml" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.1.1_manifest.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseAuth_v1.0.0_manifest.txt" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.0.0_manifest.txt" />
      <None Include="Assets\Facebook\Scripts\Canvas\Resources\JSSDKBindings.txt" />
+     <None Include="Assets\Firebase\Plugins\Http\link.xml" />
+     <None Include="Assets\Firebase\Editor\FirebaseDatabase_v1.1.0_manifest.txt" />
  <Reference Include="UnityEditor.Advertisements">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/Advertisements/Editor/UnityEditor.Advertisements.dll</HintPath>
  </Reference>
@@ -92,32 +106,29 @@
  <Reference Include="UnityEngine.Analytics">
  <HintPath>/Applications/Unity/Unity.app/Contents/UnityExtensions/Unity/UnityAnalytics/UnityEngine.Analytics.dll</HintPath>
  </Reference>
+ <Reference Include="LitJson">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/LitJson.dll</HintPath>
+ </Reference>
  <Reference Include="Firebase.Editor">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/Firebase/Editor/Firebase.Editor.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Editor/Firebase.Editor.dll</HintPath>
  </Reference>
  <Reference Include="Firebase.App">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/Firebase/Plugins/Firebase.App.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Firebase.App.dll</HintPath>
  </Reference>
  <Reference Include="Firebase.Auth">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/Firebase/Plugins/Firebase.Auth.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Firebase.Auth.dll</HintPath>
  </Reference>
  <Reference Include="Google.MiniJson">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/Firebase/Plugins/Google.MiniJson.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Google.MiniJson.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Compat">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/Firebase/Plugins/Unity.Compat.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Unity.Compat.dll</HintPath>
  </Reference>
  <Reference Include="Unity.Tasks">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/Firebase/Plugins/Unity.Tasks.dll</HintPath>
- </Reference>
- <Reference Include="Google.IOSResolver">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/PlayServicesResolver/Editor/Google.IOSResolver.dll</HintPath>
- </Reference>
- <Reference Include="Google.JarResolver">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/PlayServicesResolver/Editor/Google.JarResolver.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Unity.Tasks.dll</HintPath>
  </Reference>
  <Reference Include="Google.VersionHandler">
- <HintPath>/Users/owenmorris/ARG Spies/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
+ <HintPath>/Users/Owen/ARG-Spies/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
  </Reference>
  <Reference Include="UnityEditor.Graphs">
  <HintPath>/Applications/Unity/Unity.app/Contents/Managed/UnityEditor.Graphs.dll</HintPath>
@@ -134,6 +145,18 @@
  <Reference Include="UnityEditor.OSXStandalone.Extensions">
  <HintPath>/Applications/Unity/Unity.app/Contents/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll</HintPath>
  </Reference>
+ <Reference Include="simple-firebase-unity-editor">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/SimpleFirebaseUnity/Plugins/Editor/simple-firebase-unity-editor.dll</HintPath>
+ </Reference>
+ <Reference Include="simple-firebase-csharp">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/SimpleFirebaseUnity/Plugins/simple-firebase-csharp.dll</HintPath>
+ </Reference>
+ <Reference Include="Firebase.Database">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Firebase.Database.dll</HintPath>
+ </Reference>
+ <Reference Include="Google.Sharpen">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Google.Sharpen.dll</HintPath>
+ </Reference>
  <Reference Include="UnityEditor.iOS.Extensions.Xcode">
  <HintPath>/Applications/Unity/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
  </Reference>
@@ -143,7 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="Assembly-CSharp.csproj">
-      <Project>{1D2E010A-8557-CAB0-B4FE-7F14F6A9AF5B}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
+      <Project>{6BBC1FB9-3558-9AF8-5AD4-89CBEAB35A4F}</Project>      <Name>Assembly-CSharp</Name>    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

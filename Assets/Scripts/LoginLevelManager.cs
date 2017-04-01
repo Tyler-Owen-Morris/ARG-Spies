@@ -7,8 +7,7 @@ using System.Collections.Generic;
 
 public class LoginLevelManager : MonoBehaviour {
 
-	private Firebase.Auth.FirebaseAuth auth;
-	private Firebase.Auth.FirebaseUser user;
+
 
 	public Text emailText, passwordText;
 	public string userID, userName;
@@ -27,24 +26,12 @@ public class LoginLevelManager : MonoBehaviour {
 	// Handle initialization of the necessary firebase modules:
 	void InitializeFirebase() {
 		Debug.Log("Setting up Firebase Auth");
-		auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
-		auth.StateChanged += AuthStateChanged;
-		AuthStateChanged(this, null);
+		GameManager.instance.auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+		GameManager.instance.auth.StateChanged += GameManager.instance.AuthStateChanged;
+		GameManager.instance.AuthStateChanged(this, null); //initialize auth-state
 	}
 
-	// Track state changes of the auth object.
-	void AuthStateChanged(object sender, System.EventArgs eventArgs) {
-		if (auth.CurrentUser != user) {
-			bool signedIn = user != auth.CurrentUser && auth.CurrentUser != null;
-			if (!signedIn && user != null) {
-				Debug.Log("Signed out " + user.UserId);
-			}
-			user = auth.CurrentUser;
-			if (signedIn) {
-				Debug.Log("Signed in " + user.UserId);
-			}
-		}
-	}
+
 
 	public void RegisterNewEmailUser () {
 		string email = emailText.text;
@@ -57,7 +44,7 @@ public class LoginLevelManager : MonoBehaviour {
 			return;
 		}
 	
-		auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+		GameManager.instance.auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
 			if (task.IsCanceled) {
 				Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
 				return;
@@ -69,11 +56,16 @@ public class LoginLevelManager : MonoBehaviour {
 
 			// Firebase user has been created.
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-			user = newUser;
-			userName = user.DisplayName;
-			userID = user.UserId;
-			Debug.Log("user id is seen as: "+user.UserId);
+
+
+			GameManager.instance.LoadGame();
+			/*
+			GameManager.instance.user = newUser;
+			userName = newUser.DisplayName;
+			userID = newUser.UserId;
+			Debug.Log("user id is seen as: "+newUser.UserId);
 			Debug.LogFormat("Firebase user created successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+			*/
 		});
 	}
 
@@ -88,7 +80,7 @@ public class LoginLevelManager : MonoBehaviour {
 			return;
 		}
 
-		auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
+		GameManager.instance.auth.SignInWithEmailAndPasswordAsync(email, password).ContinueWith(task => {
 			if (task.IsCanceled) {
 				Debug.LogError("SignInWithEmailAndPasswordAsync was canceled.");
 				return;
@@ -99,18 +91,19 @@ public class LoginLevelManager : MonoBehaviour {
 			}
 
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-			user = newUser;
-			userName = user.DisplayName;
-			userID = user.UserId;
-			Debug.Log("user id is seen as: "+user.UserId);
+
+			GameManager.instance.LoadGame();
+			/*
+			GameManager.instance.user = newUser;
+			userName = GameManager.instance.user.DisplayName;
+			userID = GameManager.instance.user.UserId;
+			Debug.Log("user id is seen as: "+GameManager.instance.user.UserId);
 			Debug.LogFormat("User signed in successfully: {0} ({1})", newUser.DisplayName, newUser.UserId);
+			*/
 		});
 	}
 
-	void OnDestroy() {
-		auth.StateChanged -= AuthStateChanged;
-		auth = null;
-	}
+
 
 	//this is called automatically on mobile- as user is persistently logged in after 1st login
 	void SetInit () {
@@ -118,7 +111,7 @@ public class LoginLevelManager : MonoBehaviour {
 		if (FB.IsLoggedIn) {
 			Debug.Log ("FB is logged in- SetInit");
 
-
+			AuthenticateFirebaseFB(Facebook.Unity.AccessToken.CurrentAccessToken.TokenString);
 
 
 		} else {
@@ -169,10 +162,11 @@ public class LoginLevelManager : MonoBehaviour {
 
 	}
 
+
 	void AuthenticateFirebaseFB (string token) {
 		Firebase.Auth.Credential credential =
 			Firebase.Auth.FacebookAuthProvider.GetCredential(token);
-		auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
+		GameManager.instance.auth.SignInWithCredentialAsync(credential).ContinueWith(task => {
 			if (task.IsCanceled) {
 				Debug.LogError("SignInWithCredentialAsync was canceled.");
 				return;
@@ -183,12 +177,17 @@ public class LoginLevelManager : MonoBehaviour {
 			}
 
 			Firebase.Auth.FirebaseUser newUser = task.Result;
-			user = newUser;
-			userName = user.DisplayName;
-			userID = user.UserId;
-			Debug.Log("user id is seen as: "+user.UserId);
+
+			//Call gamemanager to load into the game
+			GameManager.instance.LoadGame();
+			/*
+			GameManager.instance.user = newUser;
+			userName = GameManager.instance.user.DisplayName;
+			userID = GameManager.instance.user.UserId;
+			Debug.Log("user id is seen as: "+GameManager.instance.user.UserId);
 			Debug.LogFormat("User signed in successfully: {0} ({1})",
 				newUser.DisplayName, newUser.UserId);
+			*/
 		});
 	}
 }
