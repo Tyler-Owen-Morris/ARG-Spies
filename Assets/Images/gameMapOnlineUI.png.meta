@@ -1,0 +1,381 @@
+fileFormatVersion: 2
+guid: d65f4d5a3c84c4a87af77b9357112b35
+timeCreated: 1491061667
+licenseType: Free
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: gameMapOnlineUI_0
+    21300002: gameMapOnlineUI_1
+    21300004: gameMapOnlineUI_2
+    21300006: gameMapOnlineUI_3
+    21300008: gameMapOnlineUI_4
+    21300010: gameMapOnlineUI_5
+    21300012: gameMapOnlineUI_6
+    21300014: gameMapOnlineUI_7
+    21300016: gameMapOnlineUI_8
+    21300018: gameMapOnlineUI_9
+    21300020: gameMapOnlineUI_10
+    21300022: gameMapOnlineUI_11
+    21300024: gameMapOnlineUI_12
+    21300026: gameMapOnlineUI_13
+    21300028: gameMapOnlineUI_14
+    21300030: gameMapOnlineUI_15
+    21300032: gameMapOnlineUI_16
+    21300034: gameMapOnlineUI_17
+    21300036: gameMapOnlineUI_18
+    21300038: gameMapOnlineUI_19
+    21300040: gameMapOnlineUI_20
+    21300042: gameMapOnlineUI_21
+    21300044: gameMapOnlineUI_22
+  serializedVersion: 2
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 1
+    linearTexture: 0
+    correctGamma: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 0
+  cubemapConvolution: 0
+  cubemapConvolutionSteps: 7
+  cubemapConvolutionExponent: 1.5
+  seamlessCubemap: 0
+  textureFormat: -1
+  maxTextureSize: 2048
+  textureSettings:
+    filterMode: -1
+    aniso: 16
+    mipBias: -1
+    wrapMode: 1
+  nPOTScale: 0
+  lightmap: 0
+  rGBM: 0
+  compressionQuality: 50
+  allowsAlphaSplitting: 0
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spritePixelsToUnits: 100
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  buildTargetSettings: []
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: gameMapOnlineUI_0
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 1326
+        width: 1280
+        height: 720
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_1
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 1937
+        width: 204
+        height: 105
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_2
+      rect:
+        serializedVersion: 2
+        x: 1490
+        y: 1971
+        width: 189
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_3
+      rect:
+        serializedVersion: 2
+        x: 1681
+        y: 1971
+        width: 189
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_4
+      rect:
+        serializedVersion: 2
+        x: 1872
+        y: 1978
+        width: 172
+        height: 68
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_5
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 1861
+        width: 178
+        height: 74
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_6
+      rect:
+        serializedVersion: 2
+        x: 1491
+        y: 1894
+        width: 178
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_7
+      rect:
+        serializedVersion: 2
+        x: 1671
+        y: 1894
+        width: 179
+        height: 76
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_8
+      rect:
+        serializedVersion: 2
+        x: 1872
+        y: 1822
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_9
+      rect:
+        serializedVersion: 2
+        x: 1284
+        y: 1704
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_10
+      rect:
+        serializedVersion: 2
+        x: 1464
+        y: 1817
+        width: 177
+        height: 75
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_11
+      rect:
+        serializedVersion: 2
+        x: 1643
+        y: 1819
+        width: 138
+        height: 72
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_12
+      rect:
+        serializedVersion: 2
+        x: 1783
+        y: 1807
+        width: 85
+        height: 85
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_13
+      rect:
+        serializedVersion: 2
+        x: 1643
+        y: 1732
+        width: 83
+        height: 84
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_14
+      rect:
+        serializedVersion: 2
+        x: 1728
+        y: 1766
+        width: 51
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_15
+      rect:
+        serializedVersion: 2
+        x: 1781
+        y: 1754
+        width: 51
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_16
+      rect:
+        serializedVersion: 2
+        x: 1834
+        y: 1768
+        width: 28
+        height: 37
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_17
+      rect:
+        serializedVersion: 2
+        x: 1870
+        y: 1737
+        width: 83
+        height: 82
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_18
+      rect:
+        serializedVersion: 2
+        x: 1723
+        y: 1713
+        width: 56
+        height: 51
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_19
+      rect:
+        serializedVersion: 2
+        x: 3
+        y: 190
+        width: 385
+        height: 1134
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_20
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 34
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_21
+      rect:
+        serializedVersion: 2
+        x: 158
+        y: 34
+        width: 154
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: gameMapOnlineUI_22
+      rect:
+        serializedVersion: 2
+        x: 314
+        y: 34
+        width: 156
+        height: 154
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      tessellationDetail: 0
+    outline: []
+  spritePackingTag: 
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

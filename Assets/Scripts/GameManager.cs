@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour {
 	public DateTime last_intel_ts;
 
 	//strings for JSON text of game data.
-	public string player_json, bugged_locations_json;
+	public string player_json, bugged_locations_json, google_places_json;
 
 	void Awake () {
 		MakeSingleton();

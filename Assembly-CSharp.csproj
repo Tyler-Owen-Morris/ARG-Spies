@@ -131,9 +131,11 @@
      <Compile Include="Assets\Facebook\Scripts\Utils\Utilities.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GoogleMapLoader.cs" />
+     <Compile Include="Assets\Scripts\LocationSpawner.cs" />
      <Compile Include="Assets\Scripts\LoginLevelManager.cs" />
      <Compile Include="Assets\Scripts\MapLevelManager.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
+     <Compile Include="Assets\Scripts\PopulatedLocation.cs" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />
      <None Include="Assets\Firebase\Editor\FirebaseAuth.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
