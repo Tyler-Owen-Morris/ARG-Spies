@@ -129,6 +129,7 @@
      <Compile Include="Assets\Facebook\Scripts\Utils\IFacebookLogger.cs" />
      <Compile Include="Assets\Facebook\Scripts\Utils\MiniJson.cs" />
      <Compile Include="Assets\Facebook\Scripts\Utils\Utilities.cs" />
+     <Compile Include="Assets\Scripts\FirebaseHandler.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
      <Compile Include="Assets\Scripts\GoogleMapLoader.cs" />
      <Compile Include="Assets\Scripts\LocationSpawner.cs" />
@@ -136,15 +137,20 @@
      <Compile Include="Assets\Scripts\MapLevelManager.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\PopulatedLocation.cs" />
+     <Compile Include="Assets\SimpleFirebaseUnity\Sample\AutoRotate.cs" />
+     <Compile Include="Assets\SimpleFirebaseUnity\Sample\MoveControl.cs" />
+     <Compile Include="Assets\SimpleFirebaseUnity\Sample\SampleScript.cs" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-auth-unity\maven-metadata.xml" />
      <None Include="Assets\Firebase\Editor\FirebaseAuth.txt" />
      <None Include="Assets\PlayServicesResolver\proguard-unity.txt" />
      <None Include="Assets\Firebase\Plugins\link.xml" />
      <None Include="Assets\Plugins\Android\Firebase\AndroidManifest.xml" />
+     <None Include="Assets\SimpleFirebaseUnity\Plugins\simple-firebase-csharp.xml" />
      <None Include="Assets\PlayServicesResolver\proguard-messaging-workaround.txt" />
      <None Include="Assets\Firebase\Editor\FirebaseDatabase.txt" />
      <None Include="Assets\PlayServicesResolver\Editor\play-services-resolver.txt" />
      <None Include="Assets\Firebase\m2repository\com\google\firebase\firebase-app-unity\maven-metadata.xml" />
+     <None Include="Assets\SimpleFirebaseUnity\Plugins\Android\AndroidManifest.xml" />
      <None Include="Assets\Facebook\Scripts\Canvas\Resources\JSSDKBindings.txt" />
      <None Include="Assets\Firebase\Plugins\Http\link.xml" />
  <Reference Include="UnityEngine.UI">
@@ -179,6 +185,9 @@
  </Reference>
  <Reference Include="Unity.Tasks">
  <HintPath>/Users/Owen/ARG-Spies/Assets/Firebase/Plugins/Unity.Tasks.dll</HintPath>
+ </Reference>
+ <Reference Include="simple-firebase-csharp">
+ <HintPath>/Users/Owen/ARG-Spies/Assets/SimpleFirebaseUnity/Plugins/simple-firebase-csharp.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

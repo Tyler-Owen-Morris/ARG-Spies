@@ -1,0 +1,16 @@
+{
+  "player": {
+    "displayName": "",
+    "userID": ""
+  },
+  "locations": {
+    "location": {
+      "owner_id": "",
+      "building_name": "",
+      "building_id": "",
+      "item_1": "2017-04-03T15:20:52.490Z",
+      "item_2": "2017-04-03T15:20:52.490Z",
+      "item_3": "2017-04-03T15:20:52.490Z"
+    }
+  }
+}

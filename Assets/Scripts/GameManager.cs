@@ -4,17 +4,21 @@ using UnityEngine.SceneManagement;
 using LitJson;
 using System;
 using Firebase;
-using Firebase.Unity.Editor;
-using Firebase.Database;
+//using Firebase.Unity.Editor;
+//using Firebase.Database;
+
+using SimpleFirebaseUnity;
+using SimpleFirebaseUnity.MiniJSON;
 
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
+	public static FirebaseHandler fireBaseRef;
 
 	//firebase data
 	public Firebase.Auth.FirebaseAuth auth;
 	public Firebase.Auth.FirebaseUser user;
-	public DatabaseReference db_reference;
+	//public DatabaseReference db_reference;
 	public string last_login_ts;
 
 
@@ -31,8 +35,13 @@ public class GameManager : MonoBehaviour {
 
 	void Start () {
 		//initialize the database connection
-		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://arg-spies.firebaseio.com/");
-		db_reference = FirebaseDatabase.DefaultInstance.RootReference;
+//		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://arg-spies.firebaseio.com/");
+//		db_reference = FirebaseDatabase.DefaultInstance.RootReference;
+
+		fireBaseRef = GetComponent<FirebaseHandler>();
+		if (fireBaseRef==null){
+			Debug.LogWarning("Unable to locate the firebase handler on the game-manager object");
+		}
 	}
 
 	void MakeSingleton () {
@@ -59,7 +68,8 @@ public class GameManager : MonoBehaviour {
 		Player player = new Player(auth.CurrentUser.UserId ,codeName, 0, DateTime.Now);
 		string json = JsonUtility.ToJson(player);
 
-		db_reference.Child("players").Child(user.UserId).SetRawJsonValueAsync(json);
+
+		//db_reference.Child("players").Child(user.UserId).SetRawJsonValueAsync(json);
 		Debug.Log("apparently we just created our player?... maybe?");
 		SceneManager.LoadScene("Map Screen");
 	}
@@ -70,6 +80,7 @@ public class GameManager : MonoBehaviour {
 			bool signedIn = user != GameManager.instance.auth.CurrentUser && GameManager.instance.auth.CurrentUser != null;
 			if (!signedIn && GameManager.instance.user != null) {
 				Debug.Log("Signed out " + GameManager.instance.user.UserId);
+				SceneManager.LoadScene("Login");
 			}
 			GameManager.instance.user = auth.CurrentUser;
 			if (signedIn) {
