@@ -3,28 +3,20 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using LitJson;
 using System;
-using Firebase;
-//using Firebase.Unity.Editor;
-//using Firebase.Database;
-
-using SimpleFirebaseUnity;
-using SimpleFirebaseUnity.MiniJSON;
 
 public class GameManager : MonoBehaviour {
 
 	public static GameManager instance;
-	public static FirebaseHandler fireBaseRef;
+    public static string serverURL = "http://spygame.argzombie.com";
 
-	//firebase data
-	public Firebase.Auth.FirebaseAuth auth;
-	public Firebase.Auth.FirebaseUser user;
-	//public DatabaseReference db_reference;
-	public string last_login_ts;
-
-
-	//integers and timestamps for game data/processing
+    //core game data
+    public string userID, userName, mob_loginTime;
 	public int intel;
-	public DateTime last_intel_ts;
+	public DateTime last_intel_ts, lastLoginTime;
+
+    //URL's for the game 
+    private string loginURL = serverURL + "/LoginToGame.php";
+    private string loadAllGameDataURL = serverURL + "/LoadAllData.php";
 
 	//strings for JSON text of game data.
 	public string player_json, bugged_locations_json, google_places_json;
@@ -34,14 +26,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
-		//initialize the database connection
-//		FirebaseApp.DefaultInstance.SetEditorDatabaseUrl("https://arg-spies.firebaseio.com/");
-//		db_reference = FirebaseDatabase.DefaultInstance.RootReference;
-
-		fireBaseRef = GetComponent<FirebaseHandler>();
-		if (fireBaseRef==null){
-			Debug.LogWarning("Unable to locate the firebase handler on the game-manager object");
-		}
+		
 	}
 
 	void MakeSingleton () {
@@ -53,47 +38,50 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void AuthCompleted () {
-		
-	}
+    public WWWForm SetUpLoginCredentials() {
+        WWWForm frm = new WWWForm();
+        frm.AddField("id", GameManager.instance.userID);
+        //frm.AddField("login_ts", GameManager.instance.lastLoginTime.ToString());
+        frm.AddField("login_ts", GameManager.instance.mob_loginTime);
+        frm.AddField("client", "mob");
+        return frm;
+    }
 
-	//load into the game screen
-	void LoadGame () {
-		
+    public void LoginToGameServer() {
+        //lastLoginTime = DateTime.Parse("12/31/1999 11:59:59");//this should be the only time a fresh login is created using our magic timecode
+        GameManager.instance.mob_loginTime = "12/31/1999 11:59:59";
+        StartCoroutine(LoadAllGameData());
+    }
 
+    IEnumerator LoadAllGameData()
+    {
+        WWWForm form = SetUpLoginCredentials();
 
-	}
+        WWW www = new WWW(loadAllGameDataURL, form);
+        yield return www;
 
-	public void StartNewPlayer (string codeName) {
-		Player player = new Player(auth.CurrentUser.UserId ,codeName, 0, DateTime.Now);
-		string json = JsonUtility.ToJson(player);
+        Debug.Log(www.text);
+        if (www.error == null)
+        {
+            JsonData allGameReturnJson = JsonMapper.ToObject(www.text);
+            if (allGameReturnJson[0].ToString() == "Success")
+            {
+                GameManager.instance.player_json = allGameReturnJson[1].ToString();
+                GameManager.instance.bugged_locations_json = allGameReturnJson[2].ToString();
+                Debug.Log("player_json: " + GameManager.instance.player_json);
+                Debug.Log("location_json: " + GameManager.instance.bugged_locations_json);
 
-
-		//db_reference.Child("players").Child(user.UserId).SetRawJsonValueAsync(json);
-		Debug.Log("apparently we just created our player?... maybe?");
-		SceneManager.LoadScene("Map Screen");
-	}
-
-	// Track state changes of the auth object.
-	public void AuthStateChanged(object sender, System.EventArgs eventArgs) {
-		if (GameManager.instance.auth.CurrentUser != user) {
-			bool signedIn = user != GameManager.instance.auth.CurrentUser && GameManager.instance.auth.CurrentUser != null;
-			if (!signedIn && GameManager.instance.user != null) {
-				Debug.Log("Signed out " + GameManager.instance.user.UserId);
-				SceneManager.LoadScene("Login");
-			}
-			GameManager.instance.user = auth.CurrentUser;
-			if (signedIn) {
-				Debug.Log("Signed in " + GameManager.instance.user.UserId);
-				LoginLevelManager loginMgr = FindObjectOfType<LoginLevelManager>();
-				if (loginMgr !=null){
-					loginMgr.AuthComplete();
-				}else{
-					Debug.LogError("Unable to locate loginLvl manager- new login detected");
-				}
-			}
-		}
-	}
-
+                //Load into the game.
+                SceneManager.LoadScene("Map Screen");
+            }else
+            {
+                Debug.LogWarning(allGameReturnJson[1].ToString());
+            }
+        }else
+        {
+            Debug.LogError(www.error);
+        }
+        
+    }
 
 }

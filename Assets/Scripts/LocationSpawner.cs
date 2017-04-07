@@ -164,7 +164,7 @@ public class LocationSpawner : MonoBehaviour {
 
 		//activate all buildings without inactive entries
 		GameObject[] buildings = GameObject.FindGameObjectsWithTag("location");
-		if (GameManager.instance.bugged_locations_json != "") {
+		if (GameManager.instance.bugged_locations_json != "" && GameManager.instance.bugged_locations_json != "0") {
 			JsonData clearedJson = JsonMapper.ToObject(GameManager.instance.bugged_locations_json);
 
 			foreach (GameObject building in buildings) {
