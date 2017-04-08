@@ -90,7 +90,7 @@ public class LocationSpawner : MonoBehaviour {
 
         Debug.Log("Calculating m/px-BG: " + m_per_pixel_mapBG + "  Map width in meters: "+map_width_in_meters+"  and meters/pixel for building placement: " + m_per_screen_pixel);
 
-        //Go through the JSON and spawn location objects
+        //Go through the JSON and spawn the nearby locations according to Google Places
         for (int i = 0; i < bldgJson["results"].Count; i++) {
 			string myName = (string)bldgJson["results"][i]["name"];
 			string myBldgID = (string)bldgJson["results"][i]["id"];
@@ -135,6 +135,7 @@ public class LocationSpawner : MonoBehaviour {
 			my_locationScript.photo_reference = my_photo_ref;
 			my_locationScript.myLat = lat;
 			my_locationScript.myLng = lng;
+            my_locationScript.last_download_ts = DateTime.Parse("12/31/1999 12:59:59");//set unmatched buildings to default datetime
 			float xCoord = (float)(screenCenter.x - (xScreenDist));
 			float yCoord = (float)(screenCenter.y - (yScreenDist));
 			Vector3 pos = new Vector3 (xCoord, yCoord, 0);
@@ -162,49 +163,38 @@ public class LocationSpawner : MonoBehaviour {
 			
 		}
 
-		//activate all buildings without inactive entries
-		GameObject[] buildings = GameObject.FindGameObjectsWithTag("location");
-		if (GameManager.instance.bugged_locations_json != "" && GameManager.instance.bugged_locations_json != "0") {
-			JsonData clearedJson = JsonMapper.ToObject(GameManager.instance.bugged_locations_json);
+        //AFTER placing all nearby buildings - Attempt to match with loaded game data.
+        GameObject[] spawnedLocations = GameObject.FindGameObjectsWithTag("location"); //gather up the spawned locations to cycled through
 
-			foreach (GameObject building in buildings) {
-				int cleared = 0;
-				PopulatedLocation myBuilding = building.GetComponent<PopulatedLocation>();
-				//Set all buildings to the "unentered" datetime by default
-				//myBuilding.last_cleared = DateTime.Parse("11:59pm 12/31/1999");
-                
-                //go through the player record of buildings they've cleared
-				for (int i=0; i<clearedJson.Count; i++) {
-                    //Debug.Log(myBuilding.buildingName+" comparing to "+clearedJson[i]["bldg_name"].ToString());
-                    //if the spawned building matches the record, populate it
-                    if (myBuilding.buildingID == clearedJson[i]["bldg_id"].ToString()) {
+        foreach (GameObject location in spawnedLocations) //cycle through the existing buildings for matches with loaded game data.
+        {
+            if(GameManager.instance.bugged_locations_json == "0" || GameManager.instance.bugged_locations_json == "")
+            {
+                Debug.Log("locations all spawned, but player is found to have NO locations bugged...");
 
-                    	Debug.Log("Found a match between game records and google places");
 
-					} else {
-                        continue;
-					}
-				}
+                break;//leave the foreach loop- there's no json to load
+            }else
+            {
+                PopulatedLocation my_location = location.GetComponent<PopulatedLocation>(); //load the existing game object's location script. (we need the building_id)
+                JsonData buggedLocationsJSON = JsonMapper.ToObject(GameManager.instance.bugged_locations_json);
 
-                //ActivateMe is now the catch all building initilizer.
-                //myBuilding.ActivateMe();
-
-                /*
-                if (cleared == 0) {
-					myBuilding.ActivateMe();
-				}
-                */
-			}
-		} else {
-			Debug.Log("Player has no cleared location records. setting all locations to clear");
-			foreach (GameObject building in buildings) {
-				PopulatedLocation myBuilding = building.GetComponent<PopulatedLocation>();
-				Debug.Log(myBuilding.name+" telling my building to do stuff");
-//				myBuilding.last_cleared = DateTime.Parse("11:59pm 12/31/1999");
-//				myBuilding.ActivateMe();
-				
-			}
-		}
+                for (int i=0;i<buggedLocationsJSON.Count; i++) //cycle through the buildings with bugs
+                {
+                    if (buggedLocationsJSON[i]["building_id"].ToString() == my_location.buildingID)
+                    {
+                        Debug.Log("MATCH FOUND ! - " + buggedLocationsJSON[i]["building_name"].ToString());
+                        my_location.t1_count = (int)buggedLocationsJSON[i]["t1_bug_count"];
+                        my_location.t2_count = (int)buggedLocationsJSON[i]["t2_bug_count"];
+                        my_location.t3_count = (int)buggedLocationsJSON[i]["t3_bug_count"];
+                        my_location.last_download_ts = DateTime.Parse(buggedLocationsJSON[i]["last_download_ts"].ToString());
+                        break; //go to the next spawned location
+                    }
+                }
+            }
+        }
+		
+		
 
 	}
 
