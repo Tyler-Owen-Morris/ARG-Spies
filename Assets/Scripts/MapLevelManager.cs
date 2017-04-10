@@ -158,7 +158,7 @@ public class MapLevelManager : MonoBehaviour {
         //Debug.Log("value calc: " + value_left + " || and value bank: " + value_banked);
     }
 
-    void ResetT1Slider()
+    public void ResetT1Slider()
     {
         t1_timer = t1_full_time;
         t1Slider.value = 0;
@@ -182,7 +182,7 @@ public class MapLevelManager : MonoBehaviour {
         t2SliderText.text = Mathf.FloorToInt(value_banked * 100f) +"%";
     }
 
-    void ResetT2Slider ()
+    public void ResetT2Slider ()
     {
         t2_timer = t2_full_time;
         t2Slider.value = 0;
@@ -205,7 +205,7 @@ public class MapLevelManager : MonoBehaviour {
         t3SliderText.text = Mathf.FloorToInt(value_banked * 100f) + "%";
     }
 
-    void ResetT3Slider ()
+    public void ResetT3Slider ()
     {
         t3_timer = t3_full_time;
         t3SliderText.text = "0%";
@@ -232,7 +232,7 @@ public class MapLevelManager : MonoBehaviour {
         downloadSliderText.text = Mathf.FloorToInt(value_banked * 100f) + "%";
     }
 
-    void ResetDownload()
+    public void ResetDownload()
     {
         download_timer = download_fulltime;
         downloadSliderText.text = "0%";

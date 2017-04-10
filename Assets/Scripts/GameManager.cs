@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour {
                 Debug.LogError(www.error);
             }
         //button up resets the slider - resetting the boolean allows another to be sent
-        myMapMgr.t2ButtonUp();
+        myMapMgr.ResetT1Slider();
         myMapMgr.plantingBug = false;
     }
 
@@ -261,7 +261,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.LogError(www.error);
         }
-        myMapMgr.t2ButtonUp();
+        myMapMgr.ResetT2Slider();
         myMapMgr.hackingWifi = false;
     }
 
@@ -312,7 +312,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.LogError(www.error);
         }
-        myMapMgr.t3ButtonUp();
+        myMapMgr.ResetT3Slider();
         myMapMgr.deployingBotnet = false;
     }
 
