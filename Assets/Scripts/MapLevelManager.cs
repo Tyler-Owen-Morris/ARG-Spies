@@ -5,30 +5,36 @@ using System;
 
 public class MapLevelManager : MonoBehaviour {
 
-    //variable for running the map/game/UI.
-    public GameObject t2Panel, t1Button;
+    //variables for running the UI interaction.
+    public GameObject t2Panel, t1Button, t2Button, t3Button, d1Button, d2Button, d3Button, DL_Button;
     public Slider t1Slider, t2Slider, t3Slider, downloadSlider;
     public bool t1_down =false, t2_down=false, t3_down=false, download_down=false;
-    public float t1_timer, t1_full_time, t2_timer, t2_full_time, t3_timer, t3_full_time, download_timer, download_fulltime;
-    
+    public float t1_timer, t1_full_time, t2_timer, t2_full_time, t3_timer, t3_full_time, t1_maxTime, t2_maxTime, t3_maxTime, download_timer, download_fulltime, download_maxTime;
+    public PopulatedLocation active_location;
+
+    //building panel objects used in Update()
     public Text t1SliderText, t2SliderText, t3SliderText, downloadSliderText  , activeBuildingT1RateText;
-    public float t1_rate, t2_rate, t3_rate, t1_baseProductivity, t2_baseProductivity, t3_baseProductivity, t1_calculatedProductivity, t2_calculatedProductivity, t3_calculatedProductivity;
+    public float t1_rate, t2_rate, t3_rate, t1_baseProductivity, t2_baseProductivity, t3_baseProductivity;
+    public long t1_calculatedProductivity, t2_calculatedProductivity, t3_calculatedProductivity;
     public int t1_baseCost, t2_baseCost, t3_baseCost;
 
-    public Text score_text, buildingNameText, buildingIntelText, t1_plantedText, t2_plantedText, t3_plantedText, t1_costText, t2_costText, t3_costText;
+    //building panel objects
+    public Text score_text, buildingNameText, buildingIntelText, t1_totalsText, t2_totalsText, t3_totalsText, t1_plantedText, t2_plantedText, t3_plantedText, t1_costText, t2_costText, t3_costText, t1_count_text, t2_count_text, t3_count_text;
     public GameObject buildingPanel;
 
+    //building data
     public string active_bldg_name, active_bldg_id, active_bldg_type;
     public int active_bldg_intel, active_bldg_t1_count, active_bldg_t2_count, active_bldg_t3_count, active_bldg_t1_cost, active_bldg_t2_cost, active_bldg_t3_cost;
     public DateTime active_bldg_lastIntel;
 
     void Start () {
-		
+    	//update the total counts.
+		UpdateTotalsText();
 	}
 
     void Update ()
     {
-        score_text.text = ByteStringHandler(GameManager.instance.intel);
+        score_text.text = ByteStringHandler((long)GameManager.instance.intel);
 
         if (t1_down){
             CountOffT1Slider();
@@ -55,6 +61,12 @@ public class MapLevelManager : MonoBehaviour {
         {
             UpdateCurrentBuildingIntel();
         }
+    }
+
+    public void UpdateTotalsText () {
+    	t1_totalsText.text = "Bugs: "+GameManager.instance.t1_total;
+    	t2_totalsText.text = "Hax: " + GameManager.instance.t2_total;
+    	t3_totalsText.text = "Bot: " + GameManager.instance.t3_total;
     }
 
     public void CalculateCurrentBuildingPrices ()
@@ -94,6 +106,12 @@ public class MapLevelManager : MonoBehaviour {
             //update the UI text
             buildingIntelText.text = "gathered: " + ByteStringHandler(active_bldg_intel );
 
+            //handle activation or deacivation of the "gathered intel button"
+            if (active_bldg_intel>0){
+            	DL_Button.GetComponent<Button>().interactable=true;
+            }else{
+            	DL_Button.GetComponent<Button>().interactable = false;
+            }
         }
         else
         {
@@ -101,43 +119,44 @@ public class MapLevelManager : MonoBehaviour {
         }//else this is an unregistered building an thus has no intel to update leave the 0 default
     }
 
-    string ByteStringHandler (int the_bytes)
+    string ByteStringHandler (long the_bytes)
     {
         //this function takes in the # of bytes and returns the string with the correct suffix and formatting
         string the_string = "";
-        if (the_bytes < 1000)
-        {
+        if (the_bytes < 1000){
             //return in just bytes
             the_string += the_bytes.ToString() + " byte";
             if (the_bytes > 1) { the_string += "s"; }
-        }else if ( the_bytes < 1000000)
-        {
+        }else if ( the_bytes < 1000000){
             //return in KB
             string tmp = (the_bytes * .001).ToString();
             int lngth = 5;
             if (tmp.Length < 5) { lngth = tmp.Length; }
             the_string += tmp.Substring(0, lngth) + " KB";
-        }else if (the_bytes < 1000000000)
-        {
+        }else if (the_bytes < 1000000000){
             //return in MB
             string tmp = (the_bytes * .000001).ToString();
             int lngth = 5;
             if (tmp.Length < 5) { lngth = tmp.Length; }
             the_string += tmp.Substring(0, lngth) + " MB";
-        }else if (the_bytes < 1000000000000)
-        {
+        }else if (the_bytes < 1000000000000){
             //return in GB
             string tmp = (the_bytes * .000000001).ToString();
             int lngth = 5;
             if (tmp.Length < 5) { lngth = tmp.Length; }
             the_string += tmp.Substring(0, 5) + " GB";
-        }else
-        {
-            //return in TB
-            string tmp = (the_bytes * .000000000001).ToString();
+        }else if (the_bytes < 1000000000000000)  {
+        	//return in TB
+			string tmp = (the_bytes * .000000000001).ToString();
             int lnght = 5;
             if (tmp.Length < 5) { lnght = tmp.Length; }
             the_string += tmp.Substring(0, lnght) + " TB";
+        }else{
+            //return in PB
+			string tmp = (the_bytes * .000000000000001).ToString();
+            int lnght = 5;
+            if (tmp.Length < 5) { lnght = tmp.Length; }
+            the_string += tmp.Substring(0, lnght) + " PB";
         }
 
         return the_string;
@@ -160,6 +179,17 @@ public class MapLevelManager : MonoBehaviour {
 
     public void ResetT1Slider()
     {
+    	//speed up the slider based on multiplier
+    	t1_full_time = t1_maxTime; //initilize the max value
+    	if (GameManager.instance.t1_total >= 25) {
+    		t1_full_time = t1_full_time *0.5f;// half the time
+    		if (GameManager.instance.t1_total >= 50 ){
+    			t1_full_time = t1_full_time * 0.5f;
+    			if (GameManager.instance.t1_total >= 100) {
+    				t1_full_time = t1_full_time*0.5f;
+    			}
+    		}
+    	}
         t1_timer = t1_full_time;
         t1Slider.value = 0;
         t1SliderText.text = "0%";
@@ -184,6 +214,18 @@ public class MapLevelManager : MonoBehaviour {
 
     public void ResetT2Slider ()
     {
+    	//speed up the slider based on multiplier
+		t2_full_time = t2_maxTime; //initilize the max value
+    	if (GameManager.instance.t2_total >= 25) {
+    		t2_full_time = t2_full_time *0.5f;// half the time
+    		if (GameManager.instance.t2_total >= 50 ){
+    			t2_full_time = t2_full_time * 0.5f;
+    			if (GameManager.instance.t2_total >= 100) {
+    				t2_full_time = t2_full_time*0.5f;
+    			}
+    		}
+    	}
+
         t2_timer = t2_full_time;
         t2Slider.value = 0;
         t2SliderText.text = "0%";
@@ -207,6 +249,18 @@ public class MapLevelManager : MonoBehaviour {
 
     public void ResetT3Slider ()
     {
+    	//speed up the slider based on multiplier
+		t3_full_time = t3_maxTime; //initilize the max value
+    	if (GameManager.instance.t3_total >= 25) {
+    		t3_full_time = t3_full_time *0.5f;// half the time
+    		if (GameManager.instance.t3_total >= 50 ){
+    			t3_full_time = t3_full_time * 0.5f;
+    			if (GameManager.instance.t3_total >= 100) {
+    				t3_full_time = t3_full_time*0.5f;
+    			}
+    		}
+    	}
+    	
         t3_timer = t3_full_time;
         t3SliderText.text = "0%";
         t3Slider.value = 0;
@@ -234,13 +288,38 @@ public class MapLevelManager : MonoBehaviour {
 
     public void ResetDownload()
     {
+    	download_fulltime = download_maxTime;
+    	if(active_location!=null){
+    		if(active_location.d1) {
+    			download_fulltime = download_fulltime *0.5f;
+    			d1Button.SetActive(false);
+    		}else{
+    			d1Button.SetActive(true);
+    		}
+    		if(active_location.d2){
+    			download_fulltime=download_fulltime*0.5f;
+    			d2Button.SetActive(false);
+    		}else{
+    			d2Button.SetActive(true);
+    		}
+    		if(active_location.d3){
+    			download_fulltime=download_fulltime*0.5f;
+    			d2Button.SetActive(false);
+    		}else{
+    			d2Button.SetActive(true);
+    		}
+    	}
         download_timer = download_fulltime;
         downloadSliderText.text = "0%";
         downloadSlider.value = 0;
     }
 
-    public void LoadBuildingPanel (string bldg_name, string bldg_id, string photo_ref, string goog_type, DateTime last_download, int t1, int t2, int t3)
+    public void LoadBuildingPanel (GameObject my_GameObject, string bldg_name, string bldg_id, string photo_ref, string goog_type, DateTime last_download, int t1, int t2, int t3)
     {
+    	//save a reference to the populated location gameobject.PopulatedLocation
+    	PopulatedLocation thisLocationScript = my_GameObject.GetComponent<PopulatedLocation>();
+    	active_location = thisLocationScript;
+    	//load all of the other variables.
         buildingNameText.text = bldg_name;
         active_bldg_name = bldg_name;
         active_bldg_id = bldg_id;
@@ -254,32 +333,92 @@ public class MapLevelManager : MonoBehaviour {
         //update the rate's text
        
         UpdateBuildingPanelText();
-
+        UpdateBuildingPanelAvailableButtons();
         buildingPanel.SetActive(true);
     }
 
     void CalculateActiveBldgProduction ()
     {
-        float t1 = (t1_baseProductivity * active_bldg_t1_count);
-        float t2 = (t2_baseProductivity * active_bldg_t2_count);
-        float t3 = (t3_baseProductivity * active_bldg_t3_count);
+        long t1 = (long)((t1_baseProductivity * active_bldg_t1_count) * (float)GameManager.instance.t1_multiplier);
+        long t2 = (long)((t2_baseProductivity * active_bldg_t2_count) * (float)GameManager.instance.t2_multiplier);
+        long t3 = (long)((t3_baseProductivity * active_bldg_t3_count) * (float)GameManager.instance.t3_multiplier);
+
+        Debug.Log("T1 production: "+t1+"  T2 production: "+t2+"  T3 production: "+t3);
 
         t1_calculatedProductivity = t1;
         t2_calculatedProductivity = t2;
         t3_calculatedProductivity = t3;
     }
 
+    public void UpdateBuildingPanelAvailableButtons(){
+    	//turn off/on the download buttons first
+    	if (GameManager.instance.intel < 1000000000000000) { //less than a petabyte
+    		d3Button.GetComponent<Button>().interactable = false;
+    	}else{
+    		//check it's not already purchased for this location
+    		if(!active_location.d3){
+    			d3Button.GetComponent<Button>().interactable = true;
+    		}else{
+    			d3Button.GetComponent<Button>().interactable =false;
+    		}
+    	}
+    	if (GameManager.instance.intel < 1000000000000) {
+    		d2Button.GetComponent<Button>().interactable = false;
+    	}else{
+    		if(!active_location.d2){
+    			d2Button.GetComponent<Button>().interactable = true;
+    		}else{
+    			d2Button.GetComponent<Button>().interactable = false;
+    		}
+    	}
+    	if (GameManager.instance.intel < 1000000000) {
+    		d1Button.GetComponent<Button>().interactable = false;
+    	}else{
+    		if(!active_location.d1){
+    			d1Button.GetComponent<Button>().interactable = true;
+    		}else{
+    			d1Button.GetComponent<Button>().interactable = false;
+    		}
+    	}
+
+    	//turn off the bug buttons
+    	if (GameManager.instance.intel < active_bldg_t1_cost) {
+    		t1Button.GetComponent<Button>().interactable = false;
+    	}else{
+    		t1Button.GetComponent<Button>().interactable = true;
+    	}
+    	if (GameManager.instance.intel < active_bldg_t2_cost) {
+    		t2Button.GetComponent<Button>().interactable = false;
+    	}else{
+    		t2Button.GetComponent<Button>().interactable = true;
+    	}
+    	if (GameManager.instance.intel < active_bldg_t3_cost){
+    		t3Button.GetComponent<Button>().interactable=false;
+    	}else{
+    		t3Button.GetComponent<Button>().interactable=true;
+    	}
+
+    	//handle the download button in the update.
+    }
+
     public void UpdateBuildingPanelText ()
     {
+    	//update the current building counts.
+    	t1_count_text.text = active_bldg_t1_count.ToString();
+    	t2_count_text.text = active_bldg_t2_count.ToString();
+    	t3_count_text.text = active_bldg_t3_count.ToString();
+
+    	//update the active building production math on the map level manager
         CalculateActiveBldgProduction();
 
+        //update the rate text
         if (active_bldg_t1_count > 0)
         {
             string t1_string = "";
             t1_string += ByteStringHandler((int)t1_calculatedProductivity);
             t1_string += "/\nsec";
             t1_plantedText.text = t1_string;
-
+            Debug.Log(t1_calculatedProductivity+ " : Calculated T1 Producitivy");
         }else
         {
             t1_plantedText.text = "0";
@@ -292,7 +431,7 @@ public class MapLevelManager : MonoBehaviour {
             t2_string += ByteStringHandler((int)t2_calculatedProductivity);
             t2_string += "/\nsec";
             t2_plantedText.text = t2_string;
-
+            Debug.Log(t2_calculatedProductivity+" : Calculated T2 Productivity");
         }else
         {
             t2_plantedText.text = "0";
@@ -305,13 +444,17 @@ public class MapLevelManager : MonoBehaviour {
             t3_string += ByteStringHandler((int)t3_calculatedProductivity);
             t3_string += "/\nsec";
             t3_plantedText.text = t3_string;
-
+            Debug.Log(t3_calculatedProductivity.ToString()+" : Calculated T3 Productivity ******");
         }else
         {
             t3_plantedText.text = "0";
         }
 
+        //calculate current prices, and set the text.
         CalculateCurrentBuildingPrices();
+
+        //ensure the totals are updated- this is used as the callback UI updater, and letting this update as well allows the totals to be updated from the GameManager.instance data
+        UpdateTotalsText();
     }
 
     public void CloseBuildingPanel ()
@@ -359,6 +502,8 @@ public class MapLevelManager : MonoBehaviour {
     {
         download_down = false;
     }
+
+    #region Public functions for gear placement at locations
 
     //this attempts to place a bug at current location
     public bool plantingBug = false;
@@ -435,4 +580,51 @@ public class MapLevelManager : MonoBehaviour {
         }
     }
 
+
+    public bool d1_upgrading = false;
+    public void D1_Upgrade () {
+    	if (d1_upgrading) {
+    		return;
+    	} else {
+    		//check the player can afford
+    		if (GameManager.instance.intel >= 1000000){ //1000bytes=1MB
+    			StartCoroutine(GameManager.instance.Upgrade_D1());
+    		}else{
+    			d1_upgrading=false;
+    			return;
+    		}
+    	}
+
+    }
+
+    public bool d2_upgrading = false;
+    public void D2_Upgrade () {
+    	if (d2_upgrading) {
+    		return;
+    	}else{
+    		if (GameManager.instance.intel >= 1000000000) { //==1GB
+    			StartCoroutine(GameManager.instance.Upgrade_D2());
+    		}else{
+    			d2_upgrading=false;
+    			return;
+    		}
+    	}
+    }
+
+    public bool d3_upgrading = false;
+    public void D3_Upgrade () {
+    	if (d3_upgrading){
+    		return;
+    	}else{
+    		if (GameManager.instance.intel >= 1000000000000) {
+    			StartCoroutine(GameManager.instance.Upgrade_D3());
+    		}else{
+    			d3_upgrading=false;
+    			return;
+    		}
+    	}
+    }
+
+
+    #endregion
 }

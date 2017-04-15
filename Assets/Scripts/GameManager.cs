@@ -11,8 +11,11 @@ public class GameManager : MonoBehaviour {
 
     //core game data
     public string userID, userName, mob_loginTime;
-	public int intel=0, t1_total, t2_total, t3_total;
+	public int t1_total, t2_total, t3_total, t1_multiplier, t2_multiplier, t3_multiplier;
+	public long intel=0;//initilize intel to 0 every game
 	public DateTime last_intel_ts, lastLoginTime;
+
+	//
 
     //URL's for the game 
     private string placeT1BugURL = serverURL + "/PlaceT1Bug.php";
@@ -20,6 +23,9 @@ public class GameManager : MonoBehaviour {
     private string deployBotnetURL = serverURL + "/DeployBotnet.php";
     private string loadAllGameDataURL = serverURL + "/LoadAllData.php";
     private string downloadBuildingURL = serverURL + "/DownloadIntel.php";
+    private string d1UpgradeURL = GameManager.serverURL + "/DownloadUpgrade1.php";
+    private string d2UpgradeURL = GameManager.serverURL + "/DownloadUpgrade2.php";
+    private string d3UpgradeURL = GameManager.serverURL + "/DownloadUpgrade3.php";
 
 	//strings for JSON text of game data.
 	public string player_json, bugged_locations_json, google_places_json;
@@ -29,7 +35,8 @@ public class GameManager : MonoBehaviour {
 	}
 
 	void Start () {
-		
+		//launch location services.
+		StartCoroutine(StartLocationServices());
 	}
 
 	void MakeSingleton () {
@@ -47,6 +54,7 @@ public class GameManager : MonoBehaviour {
         //frm.AddField("login_ts", GameManager.instance.lastLoginTime.ToString());
         frm.AddField("login_ts", GameManager.instance.mob_loginTime);
         frm.AddField("client", "mob");
+        frm.AddField("username", GameManager.instance.userName);
         return frm;
     }
 
@@ -147,7 +155,7 @@ public class GameManager : MonoBehaviour {
                 }
 
                 instance.CountBugTotals();
-                instance.intel = (int)downloadReturnJSON[1]["intel"];
+                instance.intel = (long)downloadReturnJSON[1]["intel"];
                 
 
             }else
@@ -163,6 +171,12 @@ public class GameManager : MonoBehaviour {
         downloadStarted = false;//reset the bool
         
     }
+
+    #region Placement Coroutine Region
+
+    //****************************
+    //***** Bug Placement ********
+    //****************************
 
     public IEnumerator PlaceT1Bug (int cost)
     {
@@ -196,7 +210,11 @@ public class GameManager : MonoBehaviour {
 
                     instance.CountBugTotals(); //count from json- to update integers on GameManager
                     myMapMgr.active_bldg_t1_count++; //manually increment the active building up.
+
+                    GameManager.instance.t1_total++; //manually increment the gamemanager
                     myMapMgr.UpdateBuildingPanelText();
+                    myMapMgr.UpdateTotalsText();
+                    myMapMgr.UpdateBuildingPanelAvailableButtons();
 
                     //load GameManager.instance data
                     GameManager.instance.intel = (int)bugPlacementJson[1]["intel"];
@@ -247,7 +265,10 @@ public class GameManager : MonoBehaviour {
 
                 instance.CountBugTotals(); //count from json- to update integers on GameManager
                 myMapMgr.active_bldg_t2_count++; //manually increment the active building up.
+                GameManager.instance.t2_total++; //manually increment the GameManager
                 myMapMgr.UpdateBuildingPanelText();
+                myMapMgr.UpdateTotalsText();
+                myMapMgr.UpdateBuildingPanelAvailableButtons();
 
                 //load GameManager.instance data
                 GameManager.instance.intel = (int)bugPlacementJson[1]["intel"];
@@ -297,8 +318,11 @@ public class GameManager : MonoBehaviour {
                 }
 
                 instance.CountBugTotals(); //count from json- to update integers on GameManager
-                myMapMgr.active_bldg_t3_count++; //manually increment the active building up.
-                myMapMgr.UpdateBuildingPanelText();
+                myMapMgr.active_bldg_t3_count++; //manually increment the active building up on the game manager
+                GameManager.instance.t3_total++;
+                myMapMgr.UpdateBuildingPanelText(); //update the panel UI
+                myMapMgr.UpdateTotalsText();
+                myMapMgr.UpdateBuildingPanelAvailableButtons();
 
                 //load GameManager.instance data
                 GameManager.instance.intel = (int)bugPlacementJson[1]["intel"];
@@ -316,8 +340,119 @@ public class GameManager : MonoBehaviour {
         myMapMgr.deployingBotnet = false;
     }
 
+    //******************************
+    //** Download Upgrades *********
+    //******************************
+
+    public IEnumerator Upgrade_D1 () {
+    	//active bldg data is stored on MapLvlMgr:
+    	MapLevelManager myMapMgr = FindObjectOfType<MapLevelManager>();
+    	myMapMgr.d1_upgrading=true; //disable more coroutines from starting.
+    	Debug.Log("Upgrading the Downloader lvl 1 for: "+ myMapMgr.active_bldg_name);
+
+    	//build the web form
+    	WWWForm form = SetUpLoginCredentials();
+    	form.AddField("bldg_name", myMapMgr.active_bldg_name);
+    	form.AddField("bldg_id", myMapMgr.active_bldg_id);
+
+    	//make server call
+    	WWW www = new WWW(d1UpgradeURL, form);
+    	yield return www;
+
+    	if (www.error ==null) {
+    		Debug.Log(www.text);
+    		JsonData d1UpgradeJSON = JsonMapper.ToObject(www.text);
+    		if (d1UpgradeJSON[0].ToString() == "Success"){
+    			myMapMgr.active_location.d1=true;
+    			Debug.Log("Don't forget to call the function on the map manager that updates the building panel here <<<<<=========---------*******************");
+
+    			//update GameManager Json
+				GameManager.instance.player_json = JsonMapper.ToJson(d1UpgradeJSON[1]);
+                GameManager.instance.bugged_locations_json = JsonMapper.ToJson(d1UpgradeJSON[2]);
+    		}else{
+    			Debug.LogWarning(d1UpgradeJSON[1].ToString());
+    		}
+
+    	}else{
+    		Debug.LogError(www.error);
+    	}
+    	myMapMgr.d1_upgrading=false;
+    }
+
+	public IEnumerator Upgrade_D2 () {
+    	//active bldg data is stored on MapLvlMgr:
+    	MapLevelManager myMapMgr = FindObjectOfType<MapLevelManager>();
+    	myMapMgr.d2_upgrading=true; //disable more coroutines from starting.
+    	Debug.Log("Upgrading the Downloader lvl 2 for: "+ myMapMgr.active_bldg_name);
+
+    	//build the web form
+    	WWWForm form = SetUpLoginCredentials();
+    	form.AddField("bldg_name", myMapMgr.active_bldg_name);
+    	form.AddField("bldg_id", myMapMgr.active_bldg_id);
+
+    	//make server call
+    	WWW www = new WWW(d2UpgradeURL, form);
+    	yield return www;
+
+    	if (www.error ==null) {
+			Debug.Log(www.text);
+    		JsonData d2UpgradeJSON = JsonMapper.ToObject(www.text);
+    		if (d2UpgradeJSON[0].ToString() == "Success"){
+    			myMapMgr.active_location.d2=true;
+    			Debug.Log("Don't forget to call the function on the map manager that updates the building panel here <<<<<=========---------*******************");
+
+    			//update GameManager Json
+				GameManager.instance.player_json = JsonMapper.ToJson(d2UpgradeJSON[1]);
+                GameManager.instance.bugged_locations_json = JsonMapper.ToJson(d2UpgradeJSON[2]);
+    		}else{
+    			Debug.LogWarning(d2UpgradeJSON[1].ToString());
+    		}
+    	}else{
+    		Debug.LogError(www.error);
+    	}
+    	myMapMgr.d2_upgrading=false;
+    }
+
+	public IEnumerator Upgrade_D3 () {
+    	//active bldg data is stored on MapLvlMgr:
+    	MapLevelManager myMapMgr = FindObjectOfType<MapLevelManager>();
+    	myMapMgr.d3_upgrading=true; //disable more coroutines from starting.
+    	Debug.Log("Upgrading the Downloader lvl 3 for: "+ myMapMgr.active_bldg_name);
+
+    	//build the web form
+    	WWWForm form = SetUpLoginCredentials();
+    	form.AddField("bldg_name", myMapMgr.active_bldg_name);
+    	form.AddField("bldg_id", myMapMgr.active_bldg_id);
+
+    	//make server call
+    	WWW www = new WWW(d3UpgradeURL, form);
+    	yield return www;
+
+    	if (www.error ==null) {
+			Debug.Log(www.text);
+    		JsonData d3UpgradeJSON = JsonMapper.ToObject(www.text);
+    		if (d3UpgradeJSON[0].ToString() == "Success"){
+    			myMapMgr.active_location.d3=true;
+    			Debug.Log("Don't forget to call the function on the map manager that updates the building panel here <<<<<=========---------*******************");
+
+    			//update GameManager Json
+				GameManager.instance.player_json = JsonMapper.ToJson(d3UpgradeJSON[1]);
+                GameManager.instance.bugged_locations_json = JsonMapper.ToJson(d3UpgradeJSON[2]);
+    		}else{
+    			Debug.LogWarning(d3UpgradeJSON[1].ToString());
+    		}
+    	}else{
+    		Debug.LogError(www.error);
+    	}
+    	myMapMgr.d3_upgrading=false;
+    }
+
+    #endregion
+
+    //count up the number of bugs -> calculate multipliers for each type
     public void CountBugTotals ()
-    {//this function counts up total bug numbers out of all of the locations JSON data
+    {
+    	//verify that the player has data stored on the json_string
         if (GameManager.instance.bugged_locations_json != null && instance.bugged_locations_json != "" && instance.bugged_locations_json != "0")
         {
             JsonData bugedJSON = JsonMapper.ToObject(instance.bugged_locations_json);
@@ -341,10 +476,86 @@ public class GameManager : MonoBehaviour {
 
         }else
         {
+        	//this player has not placed any bugs
             instance.t1_total = 0;
             instance.t2_total = 0;
             instance.t3_total = 0;
         }
+
+        //calculate multipliers
+        //t1 multiplier
+        if(t1_total>=25) {
+        	t1_multiplier = 3;
+        	if (t1_total >= 50){
+        		t1_multiplier=t1_multiplier * 2;
+        		if(t1_total >= 100) {
+        			t1_multiplier = t1_multiplier * 10;
+        		}
+        	}
+        }else{
+        	t1_multiplier=1;
+        }
+
+        //t2 multiplier
+        if (t2_total>=25){
+        	t2_multiplier = 5;
+        	if(t2_total>=50){
+        		t2_multiplier = t2_multiplier * 10;
+        		if(t2_total>=100){
+        			t2_multiplier = t2_multiplier * 10;
+        		}
+        	}
+        }else{
+        	t2_multiplier=1;
+        }
+
+        //t3 multiplier
+        if (t3_total>=25){
+        	t3_multiplier=4;
+        	if (t3_total>=50){
+        		t3_multiplier = t3_multiplier * 8;
+        		if(t3_total>=100){
+        			t3_multiplier = t3_multiplier *8;
+        		}
+        	}
+        }else{
+        	t3_multiplier=1;
+        }
     }
+
+    //this coroutine is called from Start to initilize the location services.
+	IEnumerator StartLocationServices () {
+		if (!Input.location.isEnabledByUser){
+			Debug.Log ("location services not enabled by user");
+            yield break;
+        }
+
+		Input.location.Start(10f, 10f);
+
+		//wait until Service initializes, or 20 seconds.
+		int maxWait = 20;
+		while (Input.location.status ==  LocationServiceStatus.Initializing && maxWait > 0) {
+			yield return new WaitForSeconds(1);
+			maxWait--;
+		}
+
+		// Service did not initialize within 20 seconds
+		if (maxWait < 1) {
+			print ("Location initialization timed out");
+			yield break;
+		} 
+
+		// connection failed to initialize
+		if (Input.location.status == LocationServiceStatus.Failed) {
+			print ("Unable to determine location");
+			yield break;
+		} else if (Input.location.status == LocationServiceStatus.Running) {
+			//access granted and location values can be retireved
+			Debug.Log ("Location Services report running successfully");
+			yield return Input.location.lastData;
+			print ("location is: " + Input.location.lastData.latitude + " " + Input.location.lastData.longitude);
+		}
+
+	}
 
 }

@@ -188,6 +188,23 @@ public class LocationSpawner : MonoBehaviour {
                         my_location.t2_count = (int)buggedLocationsJSON[i]["t2_bug_count"];
                         my_location.t3_count = (int)buggedLocationsJSON[i]["t3_bug_count"];
                         my_location.last_download_ts = DateTime.Parse(buggedLocationsJSON[i]["last_download_ts"].ToString());
+                        //setup the download speedifyers
+                        if((int)buggedLocationsJSON[i]["d1"]==1) {
+                        	my_location.d1 =true;
+                        }else{
+                        	my_location.d1=false;
+                        }
+						if((int)buggedLocationsJSON[i]["d2"]==1) {
+                        	my_location.d2 = true;
+                        }else{
+                        	my_location.d2 = false;
+                        }
+						if((int)buggedLocationsJSON[i]["d3"]==1) {
+                        	my_location.d3 = true ;
+                        }else{
+                        	my_location.d3 = false ;
+                        }
+
                         break; //go to the next spawned location
                     }
                 }

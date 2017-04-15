@@ -48,3 +48,7 @@
 /Users/Owen/ARG-Spies/Temp/bin/Debug/simple-firebase-csharp.dll
 /Users/Owen/ARG-Spies/Temp/bin/Debug/Firebase.Database.dll
 /Users/Owen/ARG-Spies/Temp/bin/Debug/Google.Sharpen.dll
+/Users/Owen/ARG-Spies/Temp/bin/Debug/UnityEngine.TestRunner.dll
+/Users/Owen/ARG-Spies/Temp/bin/Debug/nunit.framework.dll
+/Users/Owen/ARG-Spies/Temp/bin/Debug/UnityEngine.HoloLens.dll
+/Users/Owen/ARG-Spies/Temp/bin/Debug/UnityEngine.VR.dll
