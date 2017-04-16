@@ -160,6 +160,8 @@ public class LocationSpawner : MonoBehaviour {
 //				instance.loot_code = "G";
 //			}
 
+			my_locationScript.SetUpContentIcons(); //this should set the default of all icons being off- before we look for matches
+
 			
 		}
 
@@ -204,8 +206,8 @@ public class LocationSpawner : MonoBehaviour {
                         }else{
                         	my_location.d3 = false ;
                         }
-
-                        break; //go to the next spawned location
+						my_location.SetUpContentIcons();//now that we've updated this location's content- update it's icons.
+                        //break; //go to the next spawned location
                     }
                 }
             }
